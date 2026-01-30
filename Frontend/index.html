@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukiceker - As Melhores Ofertas</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ícones (Bootstrap Icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        /* --- Nossas Cores Personalizadas --- */
+        :root {
+            --shopee-color: #ee4d2d;
+            --amazon-color: #232f3e;
+            --ali-color: #ff4747;
+            --ml-color: #ffe600; /* Texto preto no ML */
+        }
+
+        body { background-color: #f8f9fa; }
+
+        /* Estilo dos Cards de Produto */
+        .product-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover; /* Garante que a imagem não estique */
+        }
+        .price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #333;
+        }
+
+        /* Botões Personalizados */
+        .btn-shopee { background-color: var(--shopee-color); color: white; }
+        .btn-shopee:hover { background-color: #d73211; color: white; }
+
+        .btn-amazon { background-color: var(--amazon-color); color: white; }
+        .btn-amazon:hover { background-color: #131921; color: white; }
+
+        /* Estilo das Abas */
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd; /* Cor padrão da aba ativa */
+        }
+        /* Personalizando a cor da aba ativa dependendo da loja (Faremos via JS ou classes específicas depois, por enquanto azul padrão) */
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                <i class="bi bi-bag-check-fill me-2"></i>UKICEKER
+            </a>
+            <span class="navbar-text text-white d-none d-md-block">
+                Está aki! As melhores ofertas da internet.
+            </span>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container py-5">
+        
+        <!-- Navegação das Abas -->
+        <ul class="nav nav-pills nav-fill mb-5 gap-2" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-bold" id="shopee-tab" data-bs-toggle="tab" data-bs-target="#shopee" type="button">SHOPEE</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="amazon-tab" data-bs-toggle="tab" data-bs-target="#amazon" type="button">AMAZON</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="ali-tab" data-bs-toggle="tab" data-bs-target="#ali" type="button">ALIEXPRESS</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="ml-tab" data-bs-toggle="tab" data-bs-target="#ml" type="button">MERCADO LIVRE</button>
+            </li>
+        </ul>
+
+        <!-- Conteúdo das Abas -->
+        <div class="tab-content" id="myTabContent">
+            
+            <!-- ABA SHOPEE -->
+            <div class="tab-pane fade show active" id="shopee" role="tabpanel">
+                <div class="row g-4">
+                    
+                    <!-- CARD DE PRODUTO EXEMPLO 1 -->
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card h-100 product-card shadow-sm">
+                            <!-- Imagem do Produto (Placeholder) -->
+                            <img src="https://placehold.co/300x300/png?text=Fone+Bluetooth" class="card-img-top" alt="Produto">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fs-6">Fone de Ouvido Bluetooth TWS</h5>
+                                <p class="card-text text-muted small">Áudio de alta qualidade e bateria longa.</p>
+                                <div class="mt-auto">
+                                    <p class="price mb-2">R$ 59,90</p>
+                                    <a href="#" class="btn btn-shopee w-100 fw-bold text-uppercase">
+                                        Está aki! <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Você pode copiar e colar o bloco "col-12..." acima para criar mais produtos -->
+
+                </div>
+            </div>
+
+            <!-- ABA AMAZON -->
+            <div class="tab-pane fade" id="amazon" role="tabpanel">
+                <div class="alert alert-light text-center border shadow-sm">
+                    <h4><i class="bi bi-amazon me-2"></i>Ofertas da Amazon</h4>
+                    <p>Carregando produtos...</p>
+                </div>
+            </div>
+
+            <!-- Outras abas seguem a mesma lógica -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (Necessário para as abas funcionarem) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

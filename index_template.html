@@ -1,0 +1,148 @@
+<!-- 
+    ARQUIVO: index_template.html
+    FUNÇÃO: Molde mestre para gerar a página inicial.
+    DESCRIÇÃO: Este arquivo contém o HTML base e as marcações do Jinja2 (ex: {% for %}) 
+               que serão substituídas pelos dados reais vindos do Python.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukiceker - As Melhores Ofertas</title>
+    
+    <!-- Bootstrap 5 CSS (Framework visual para responsividade) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ícones (Bootstrap Icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        /* --- CORES DA MARCA E PLATAFORMAS --- */
+        :root {
+            --shopee-color: #ee4d2d;
+            --amazon-color: #232f3e;
+            --ali-color: #ff4747;
+            --ml-color: #ffe600;
+        }
+
+        body { background-color: #f8f9fa; }
+
+        /* --- ESTILO DOS CARDS DE PRODUTO --- */
+        .product-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-5px); /* Efeito de levitação ao passar o mouse */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+        }
+        .price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #333;
+        }
+
+        /* --- BOTÕES PERSONALIZADOS --- */
+        .btn-shopee { background-color: var(--shopee-color); color: white; }
+        .btn-shopee:hover { background-color: #d73211; color: white; }
+
+        .btn-amazon { background-color: var(--amazon-color); color: white; }
+        .btn-amazon:hover { background-color: #131921; color: white; }
+
+        /* --- ABAS DE NAVEGAÇÃO --- */
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd; /* Cor da aba selecionada */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- CABEÇALHO (NAVBAR) --- -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                <i class="bi bi-bag-check-fill me-2"></i>UKICEKER
+            </a>
+            <span class="navbar-text text-white d-none d-md-block">
+                Está aki! As melhores ofertas da internet.
+            </span>
+        </div>
+    </nav>
+
+    <!-- --- CONTEÚDO PRINCIPAL --- -->
+    <div class="container py-5">
+        
+        <!-- Navegação das Abas (Botões Superiores) -->
+        <ul class="nav nav-pills nav-fill mb-5 gap-2" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-bold" id="shopee-tab" data-bs-toggle="tab" data-bs-target="#shopee" type="button">SHOPEE</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="amazon-tab" data-bs-toggle="tab" data-bs-target="#amazon" type="button">AMAZON</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="ali-tab" data-bs-toggle="tab" data-bs-target="#ali" type="button">ALIEXPRESS</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="ml-tab" data-bs-toggle="tab" data-bs-target="#ml" type="button">MERCADO LIVRE</button>
+            </li>
+        </ul>
+
+        <!-- Conteúdo das Abas (Onde os produtos aparecem) -->
+        <div class="tab-content" id="myTabContent">
+            
+            <!-- === ABA SHOPEE === -->
+            <div class="tab-pane fade show active" id="shopee" role="tabpanel">
+                <div class="row g-4">
+                    
+                    <!-- INÍCIO DO LOOP JINJA2: Repete este bloco para cada produto encontrado no banco -->
+                    {% for produto in produtos_shopee %}
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card h-100 product-card shadow-sm">
+                            <!-- Imagem do Produto -->
+                            <img src="{{ produto.imagem }}" class="card-img-top" alt="{{ produto.nome }}">
+                            
+                            <div class="card-body d-flex flex-column">
+                                <!-- Título -->
+                                <h5 class="card-title fs-6">{{ produto.nome }}</h5>
+                                
+                                <!-- Rodapé do Card (Preço e Botão) -->
+                                <div class="mt-auto">
+                                    <p class="price mb-2">R$ {{ produto.preco }}</p>
+                                    <a href="{{ produto.link }}" target="_blank" class="btn btn-shopee w-100 fw-bold text-uppercase">
+                                        Está aki! <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- FIM DO LOOP -->
+
+                </div>
+            </div>
+
+            <!-- === ABA AMAZON (Placeholder) === -->
+            <div class="tab-pane fade" id="amazon" role="tabpanel">
+                <div class="alert alert-light text-center border shadow-sm">
+                    <h4><i class="bi bi-amazon me-2"></i>Ofertas da Amazon</h4>
+                    <p>Carregando produtos...</p>
+                </div>
+            </div>
+
+            <!-- Outras abas (AliExpress, ML) -->
+            <div class="tab-pane fade" id="ali" role="tabpanel"><div class="alert alert-light text-center">AliExpress</div></div>
+            <div class="tab-pane fade" id="ml" role="tabpanel"><div class="alert alert-light text-center">Mercado Livre</div></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

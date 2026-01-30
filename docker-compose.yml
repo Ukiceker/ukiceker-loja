@@ -1,0 +1,62 @@
+# Configuração Docker Compose - Ukiceker (Híbrido)
+services:
+
+  # --- 1. O BANCO DE DADOS (A Memória) ---
+  db:
+    image: mysql:8.0
+    container_name: ukiceker_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ukiceker_db
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - ukiceker_net
+
+  # --- 2. O BACKEND (O Cérebro - Python) ---
+  backend:
+    image: python:3.10-slim
+    container_name: ukiceker_backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app  # Mapeia a pasta 'backend' do seu PC
+      - ./frontend:/app/frontend_output # Permite que o Python escreva na pasta do site
+    environment:
+      # Passa a senha do banco para o Python ler
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    command: tail -f /dev/null # Mantém o container ligado para rodarmos os scripts
+    networks:
+      - ukiceker_net
+
+  # --- 3. O FRONTEND (A Vitrine - HTML) ---
+  frontend:
+    image: nginx:alpine
+    container_name: ukiceker_frontend
+    restart: always
+    volumes:
+      - ./frontend:/usr/share/nginx/html # Mapeia a pasta 'frontend' do seu PC
+    networks:
+      - ukiceker_net
+
+  # --- 4. O PROXY (A Portaria) ---
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: ukiceker_proxy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./npm/data:/data
+      - ./npm/letsencrypt:/etc/letsencrypt
+    networks:
+      - ukiceker_net
+
+volumes:
+  db_data:
+
+networks:
+  ukiceker_net:
+    driver: bridge
