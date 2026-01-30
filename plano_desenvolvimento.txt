@@ -10,13 +10,14 @@ PLANO DE DESENVOLVIMENTO - PROJETO UKICEKER
 - [x] Criar banco de dados e tabelas.
 - [x] Script para popular banco com dados de teste.
 - [x] Script gerador de site estático (Jinja2).
-- [ ] Refinar layout e design dos cards de produto.
+- [x] Refatorar gerador para ser 100% dinâmico (Escalabilidade).
 
---- FASE 3: AUTOMAÇÃO DE DADOS (O Robô) ---
-- [ ] Criar script ETL (Extract, Transform, Load) para ler APIs/Links.
-- [ ] Integração inicial com Shopee (API ou Scraping).
-- [ ] Agendamento de atualizações automáticas (Cron).
+--- FASE 3: SISTEMA DE GESTÃO (Produto Comercial) ---
+- [ ] Criar App Desktop (Python/CustomTkinter) com interface moderna.
+- [ ] Implementar Tela de Login e Controle de Usuários.
+- [ ] Criar Formulário Dinâmico de Produtos (Encapsulamento por Plataforma).
+- [ ] Compilar para executável (.exe) para distribuição.
 
---- FASE 4: EXPANSÃO ---
-- [ ] Adicionar abas funcionais para Amazon, AliExpress e ML.
-- [ ] Implementar busca e filtros no frontend.
+--- FASE 4: INTEGRAÇÃO E AUTOMAÇÃO ---
+- [ ] Conectar App Desktop às APIs (Shopee/ML/AliExpress).
+- [ ] Gerador de Relatórios de Vendas/Cliques.

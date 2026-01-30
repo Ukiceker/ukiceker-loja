@@ -1,0 +1,2 @@
+[30/Jan/2026:04:55:38 +0000] - 200 200 - GET http localhost "/" [Client 172.18.0.1] [Length 2188] [Gzip 2.72] [Sent-to ukiceker_frontend] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" "-"
+[30/Jan/2026:05:14:49 +0000] - 304 304 - GET http localhost "/" [Client 172.18.0.1] [Length 0] [Gzip -] [Sent-to ukiceker_frontend] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" "-"

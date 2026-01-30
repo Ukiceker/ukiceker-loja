@@ -10,14 +10,14 @@ import os
 def inserir_produtos_teste():
     print("Conectando ao banco para inserir produtos...")
     
-    senha_root = os.environ.get('DB_ROOT_PASSWORD')
-    
     try:
+        # Usando as credenciais da aplicação (127.0.0.1)
         conexao = mysql.connector.connect(
-            host='db',
-            user='root',
-            password=senha_root,
-            database='ukiceker_db'
+            host='127.0.0.1',
+            user='ukiceker_app',
+            password='Ukiceker@123',
+            database='ukiceker_db',
+            use_pure=True
         )
         cursor = conexao.cursor()
         

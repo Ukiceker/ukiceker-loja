@@ -10,25 +10,18 @@ import os
 def configurar_banco():
     print("Iniciando configuração do Banco de Dados...")
     
-    senha_root = os.environ.get('DB_ROOT_PASSWORD')
-    
     try:
-        # --- PASSO 1: Conectar ao MySQL (sem banco específico) ---
+        # --- PASSO 1: Conectar ao Banco (Usando credenciais da aplicação) ---
         conexao = mysql.connector.connect(
-            host='db',
-            user='root',
-            password=senha_root
+            host='127.0.0.1',
+            user='ukiceker_app',
+            password='Ukiceker@123',
+            database='ukiceker_db',
+            use_pure=True
         )
         cursor = conexao.cursor()
         
-        # --- PASSO 2: Criar o Banco de Dados ---
-        cursor.execute("CREATE DATABASE IF NOT EXISTS ukiceker_db")
-        print("Banco 'ukiceker_db' verificado.")
-        
-        # --- PASSO 3: Selecionar o Banco ---
-        cursor.execute("USE ukiceker_db")
-        
-        # --- PASSO 4: Criar a Tabela de Produtos ---
+        # --- PASSO 2: Criar a Tabela de Produtos ---
         tabela_sql = """
         CREATE TABLE IF NOT EXISTS produtos (
             id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,71 +1,47 @@
-DIÁRIO DE BORDO V2 - PROJETO UKICEKER (ARQUITETURA HÍBRIDA)
-Início da Nova Fase: 30/01/2026
+DIÁRIO DE BORDO - PROJETO UKICEKER (VERSÃO NATIVA)
+Atualização: 30/01/2026
 
 --- OBJETIVO ESTRATÉGICO ---
-Desenvolver uma plataforma de Afiliados (e futuro Dropshipping) de alta performance, abandonando o WordPress em favor de uma arquitetura proprietária para controle total e escalabilidade.
+Desenvolver uma plataforma de Gestão de Afiliados (Desktop) e Vitrine Virtual (Web Estática) de alta performance.
+Arquitetura proprietária focada em ambiente Windows, sem dependência de containers.
 
---- ARQUITETURA TÉCNICA (STACK) ---
-1. **Frontend (Vitrine):** HTML5, CSS3 (Bootstrap 5), JavaScript. Servido por Nginx.
-2. **Backend (Cérebro):** Python 3.10. Responsável por APIs, automação e conexão com banco.
-3. **Banco de Dados:** MySQL 8.0.
-4. **Infraestrutura:** Docker Compose.
+--- STACK TECNOLÓGICA (ATUALIZADA) ---
+1. **Interface (App):** Python 3.14.2 + CustomTkinter (Windows).
+2. **Backend (Lógica):** Scripts Python (Automação/ETL).
+3. **Banco de Dados:** MySQL 8.0 Community Server (Local - Porta 3306).
+4. **Conexão:** TCP/IP (127.0.0.1) via `mysql-connector-python` (Pure Python).
+5. **Frontend (Vitrine):** HTML5/Bootstrap (Gerado estaticamente pelo Python).
 
---- NORMATIVA DE DESENVOLVIMENTO (A partir de 30/01/2026) ---
-1. **Comentários Obrigatórios:** Todo arquivo deve iniciar com um cabeçalho descrevendo sua função. Blocos lógicos de código devem ser comentados.
-2. **Nomenclatura:** Arquivos de template (moldes) devem ter o sufixo `_template` (ex: `index_template.html`) para não confundir com arquivos finais.
-3. **Foco:** Qualquer nova funcionalidade deve ser validada contra o "Plano de Desenvolvimento" antes de ser iniciada.
+--- STATUS ATUAL DO SISTEMA ---
+[OK] Banco de Dados (`ukiceker_db`) criado e estruturado.
+[OK] Tabela `usuarios` com hash seguro (PBKDF2) e fluxo de primeiro acesso.
+[OK] Tabela `produtos` populada com dados de teste (Shopee, ML, Ali).
+[OK] Conexão Python <-> MySQL validada via usuário dedicado (`ukiceker_app`).
+[OK] Tela de Login funcional com validação de hash.
+[OK] Ambiente limpo (Docker removido).
 
---- SESSÃO (30/01/2026) - PREPARAÇÃO DO AMBIENTE ---
-1. **Limpeza:** Remoção completa dos arquivos antigos do WordPress.
-2. **Docker:** Configuração de `docker-compose.yml` com 4 serviços:
-   - `db` (MySQL)
-   - `backend` (Python 3.10)
-   - `frontend` (Nginx)
-   - `npm` (Proxy Manager)
-3. **Próximos Passos:** Criar o arquivo `index.html` na pasta `frontend` e o primeiro script Python na pasta `backend`.
+--- HISTÓRICO DE DECISÕES E MARCOS (RESUMO) ---
 
---- SESSÃO (30/01/2026) - FRONTEND INICIAL ---
-- **Ação:** Arquivo `index.html` criado na pasta `frontend`.
-- **Tecnologia:** Bootstrap 5 + Ícones + CSS Customizado.
-- **Funcionalidade:** Estrutura de Abas (Tabs) implementada e Card de Produto modelo criado na aba Shopee.
+30/01/2026 - INÍCIO E PIVOTAGEM
+- **Decisão:** Abandono do WordPress e Docker em favor de desenvolvimento Desktop Nativo.
+- **Motivo:** Maior controle, performance e facilidade de distribuição para o cliente final (Windows).
 
---- RESOLUÇÃO DE PROBLEMAS (30/01/2026) - ARQUIVOS DE CONFIGURAÇÃO ---
-- **Erro:** `no configuration file provided: not found` ao subir o Docker.
-- **Causa:** O arquivo `docker-compose.yml` não foi encontrado na pasta (provavelmente deletado na limpeza e não recriado).
-- **Ação:** Criação do arquivo `.env` com as credenciais do banco e instrução para garantir a existência do `docker-compose.yml`.
-- **Correção:** Usuário confirmou que `.env` já existia. Arquivo `docker-compose.yml` recriado lendo as variáveis existentes.
-- **Limpeza:** Remoção das credenciais do usuário "WordPress" do arquivo `.env`, mantendo apenas o acesso root para o novo banco de dados.
-- **Ajuste Docker:** `docker-compose.yml` atualizado para remover variáveis obsoletas (`MYSQL_USER`) e injetar `DB_ROOT_PASSWORD` no container `backend`. Script `test_db.py` criado.
+30/01/2026 - DEFINIÇÃO DE DADOS E SEGURANÇA
+- **Estrutura:** Criação das tabelas `produtos` (vitrine) e `usuarios` (acesso).
+- **Segurança:** Implementação de Hash e Salt para senhas. Usuário `teste` criado.
+- **Acesso:** Configuração do usuário dedicado `ukiceker_app` com permissões restritas.
 
---- RESOLUÇÃO DE PROBLEMAS (30/01/2026) - EXECUÇÃO DE SCRIPTS ---
-- **Erro:** `ModuleNotFoundError: No module named 'mysql'` ao rodar `test_db.py`.
-- **Causa:** O usuário executou o script no ambiente Windows local (`C:\Python314\...`) em vez de dentro do container Docker.
-- **Solução:** Instrução reforçada para usar `docker exec ukiceker_backend ...` para garantir acesso às bibliotecas e à rede interna (`host='db'`).
+30/01/2026 - MIGRAÇÃO PARA NATIVO (WINDOWS)
+- **Problema:** Instabilidade e complexidade desnecessária com Docker no Windows (erros de socket/auth).
+- **Solução:** Remoção completa da camada Docker. Instalação nativa do MySQL Server.
+- **Ajuste:** Scripts reconfigurados para apontar para `127.0.0.1` (TCP/IP) em vez de `localhost` (Socket), resolvendo conflitos de driver.
+- **Limpeza:** Exclusão de `docker-compose.yml` e scripts de correção de container.
 
---- RESOLUÇÃO DE PROBLEMAS (30/01/2026) - CONEXÃO BANCO DE DADOS ---
-- **Erro:** `Access denied for user 'root'... (using password: NO)` ao rodar script no container.
-- **Causa:** O container `backend` não foi atualizado com a nova configuração do `docker-compose.yml` (variável `DB_ROOT_PASSWORD` ausente no ambiente).
-- **Solução:** Executar `docker compose up -d` para recriar o container com as variáveis de ambiente corretas e reinstalar dependências.
+--- PRÓXIMOS PASSOS (ROTEIRO) ---
+1. **CRUD de Produtos:** Criar tela para Adicionar, Editar e Excluir produtos diretamente pelo App.
+2. **Gestão de Links:** Campo para link de afiliado e upload de imagem local ou URL.
+3. **Gerador de Site:** Botão no App para disparar o script `gerar_site.py` e atualizar o HTML da vitrine.
 
---- RESOLUÇÃO DE PROBLEMAS (30/01/2026) - CRIAÇÃO DO BANCO ---
-- **Erro:** `Unknown database 'ukiceker_db'` ao testar conexão.
-- **Causa:** O MySQL não criou o banco automaticamente porque o volume de dados (`db_data`) já existia de instalações anteriores.
-- **Solução:** Criação do script `setup_db.py` que conecta sem banco definido, cria o database `ukiceker_db` e a tabela `produtos` manualmente.
-
---- SESSÃO (30/01/2026) - POPULANDO O BANCO ---
-- **Ação:** Criação do script `insert_test_products.py`.
-- **Resultado:** Inserção de 3 produtos de teste na tabela `produtos` (Categoria Shopee) via script Python.
-
---- SESSÃO (30/01/2026) - GERAÇÃO DE SITE ESTÁTICO (SSR) ---
-- **Infraestrutura:** Volume `./frontend` mapeado para o container backend.
-- **Desenvolvimento:** Template Jinja2 criado em `backend/templates/index.html`. Script `gerar_site.py` implementado.
-- **Resultado:** O Python agora lê o MySQL e gera o `index.html` final automaticamente. Integração Front/Back concluída.
-
---- SESSÃO (30/01/2026) - ORGANIZAÇÃO E VERSIONAMENTO ---
-- **Documentação:** Separação do "Plano de Desenvolvimento" em arquivo próprio (`plano_desenvolvimento.txt`) para limpar o histórico.
-- **Versionamento:** Execução de limpeza no Git para refletir a remoção do WordPress e a entrada da nova arquitetura Python/HTML.
-
---- RESOLUÇÃO DE PROBLEMAS (30/01/2026) - REINICIALIZAÇÃO DO GIT ---
-- **Erro:** `fatal: not a git repository` ao tentar verificar status.
-- **Causa:** A pasta oculta `.git` foi excluída durante a limpeza física dos arquivos do projeto.
-- **Solução:** Reinicialização do repositório (`git init`), recriação do commit inicial e envio forçado (`--force`) para o GitHub para substituir o histórico antigo do WordPress.
+--- ENCERRAMENTO DE SESSÃO (30/01/2026) ---
+- **Conclusão:** Ambiente estabilizado, Docker removido, App Desktop conectando ao banco local.
+- **Status:** Código limpo e pronto para expansão de funcionalidades (CRUD).
