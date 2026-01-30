@@ -61,3 +61,8 @@ Arquitetura proprietária focada em ambiente Windows, sem dependência de contai
 - **Problema Recorrente:** O erro "Falha na Extração / Erro no carregamento" retornou durante os testes automatizados.
 - **Diagnóstico Preliminar:** O script de injeção automática pode estar rodando antes da renderização completa do DOM ou sendo bloqueado, diferentemente do Bookmarklet manual que funcionava bem.
 - **Ação Futura:** Revisar tempos de espera (Sleep/Wait) e considerar voltar para abordagem híbrida ou melhorar a detecção de "Página Pronta".
+
+--- INCIDENTE GIT (30/01/2026) ---
+- **Ocorrência:** Pasta de cache do navegador (`chrome_profile`) foi commitada acidentalmente, inflando o repositório.
+- **Correção:** Criado script `limpar_git.bat` que executa `git rm -r --cached` para remover os arquivos do GitHub mantendo-os locais, e aplica o `.gitignore` corretamente.
+- **Estado:** Repositório higienizado.

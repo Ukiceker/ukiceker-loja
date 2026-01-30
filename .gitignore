@@ -13,5 +13,6 @@ __pycache__/
 # --- Ignorar Arquivos Temporários do Sistema ---
 sistema_gestao/temp_products.json
 
-# --- Ignorar Imagens Temporárias de Download ---
-Material de apoio/Imagens/temp_import_*
+# --- Ignorar Pastas de Suporte e Instaladores ---
+Instaladores/
+Material de apoio/
