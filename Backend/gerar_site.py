@@ -53,7 +53,14 @@ def gerar_site_estatico():
         print(f"Plataformas processadas: {list(plataformas_dict.keys())}")
 
         # --- PASSO 3: Configurar o Template (Jinja2) ---
-        env = Environment(loader=FileSystemLoader('/app/templates'))
+        # Ajuste para Windows: Caminhos relativos baseados na pasta do script
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(base_dir) # Sobe um nível para a raiz do projeto
+        
+        template_dir = os.path.join(project_root, 'templates')
+        output_dir = os.path.join(project_root, 'frontend_output')
+        
+        env = Environment(loader=FileSystemLoader(template_dir))
         template = env.get_template('index_template.html') # Usando o novo nome do template
         
         # --- PASSO 4: Renderizar (Preencher o molde com dados) ---
@@ -61,10 +68,16 @@ def gerar_site_estatico():
         html_final = template.render(plataformas=lista_plataformas)
         
         # --- PASSO 5: Salvar o arquivo final na pasta pública ---
-        with open('/app/frontend_output/index.html', 'w', encoding='utf-8') as arquivo:
+        output_file = os.path.join(output_dir, 'index.html')
+        with open(output_file, 'w', encoding='utf-8') as arquivo:
             arquivo.write(html_final)
             
-        print("SUCESSO: Site atualizado em 'frontend/index.html'!")
+        # --- PASSO 6: Atualizar Status no Banco ---
+        # Marca todos os produtos listados como 'Publicado'
+        cursor.execute("UPDATE produtos SET status = 'Publicado'")
+        conexao.commit()
+            
+        print(f"SUCESSO: Site atualizado em '{output_file}'!")
         
     except Exception as e:
         print(f"ERRO: {e}")

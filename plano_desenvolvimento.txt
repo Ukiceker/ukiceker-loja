@@ -16,8 +16,12 @@ PLANO DE DESENVOLVIMENTO - PROJETO UKICEKER
 - [ ] Criar App Desktop (Python/CustomTkinter) com interface moderna.
 - [ ] Implementar Tela de Login e Controle de Usuários.
 - [ ] Criar Formulário Dinâmico de Produtos (Encapsulamento por Plataforma).
+- [ ] Implementar "Auto-Fill" via Link (Scraping de Metadados) para cadastro rápido.
 - [ ] Compilar para executável (.exe) para distribuição.
 
 --- FASE 4: INTEGRAÇÃO E AUTOMAÇÃO ---
 - [ ] Conectar App Desktop às APIs (Shopee/ML/AliExpress).
+- [ ] Implementar Sistema Híbrido de Cadastro:
+      1. Via Link (Scraping): Para afiliados iniciantes (sem API).
+      2. Via API (Credenciais): Para afiliados PRO (sincronização automática de preço/estoque).
 - [ ] Gerador de Relatórios de Vendas/Cliques.

@@ -79,30 +79,26 @@
     <div class="container py-5">
         
         <!-- Navegação das Abas (Botões Superiores) -->
+        <!-- Gerado dinamicamente pelo Python para garantir ordem correta -->
         <ul class="nav nav-pills nav-fill mb-5 gap-2" id="myTab" role="tablist">
+            {% for plataforma in plataformas %}
             <li class="nav-item" role="presentation">
-                <button class="nav-link active fw-bold" id="shopee-tab" data-bs-toggle="tab" data-bs-target="#shopee" type="button">SHOPEE</button>
+                <!-- A primeira aba ganha a classe 'active' automaticamente -->
+                <button class="nav-link fw-bold {% if loop.first %}active{% endif %}" id="{{ plataforma.id }}-tab" data-bs-toggle="tab" data-bs-target="#{{ plataforma.id }}" type="button">{{ plataforma.nome|upper }}</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link fw-bold" id="amazon-tab" data-bs-toggle="tab" data-bs-target="#amazon" type="button">AMAZON</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link fw-bold" id="ali-tab" data-bs-toggle="tab" data-bs-target="#ali" type="button">ALIEXPRESS</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link fw-bold" id="ml-tab" data-bs-toggle="tab" data-bs-target="#ml" type="button">MERCADO LIVRE</button>
-            </li>
+            {% endfor %}
         </ul>
 
         <!-- Conteúdo das Abas (Onde os produtos aparecem) -->
         <div class="tab-content" id="myTabContent">
             
-            <!-- === ABA SHOPEE === -->
-            <div class="tab-pane fade show active" id="shopee" role="tabpanel">
+            <!-- Loop para criar o painel de cada plataforma -->
+            {% for plataforma in plataformas %}
+            <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ plataforma.id }}" role="tabpanel">
                 <div class="row g-4">
                     
-                    <!-- INÍCIO DO LOOP JINJA2: Repete este bloco para cada produto encontrado no banco -->
-                    {% for produto in produtos_shopee %}
+                    <!-- Loop dos produtos DENTRO desta plataforma específica -->
+                    {% for produto in plataforma.produtos %}
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="card h-100 product-card shadow-sm">
                             <!-- Imagem do Produto -->
@@ -115,7 +111,8 @@
                                 <!-- Rodapé do Card (Preço e Botão) -->
                                 <div class="mt-auto">
                                     <p class="price mb-2">R$ {{ produto.preco }}</p>
-                                    <a href="{{ produto.link }}" target="_blank" class="btn btn-shopee w-100 fw-bold text-uppercase">
+                                    <!-- Botão com cor dinâmica baseada na plataforma (se houver classe CSS) ou padrão -->
+                                    <a href="{{ produto.link }}" target="_blank" class="btn btn-primary w-100 fw-bold text-uppercase" style="background-color: var(--{{ plataforma.id }}-color, #0d6efd); border: none;">
                                         Está aki! <i class="bi bi-box-arrow-up-right ms-1"></i>
                                     </a>
                                 </div>
@@ -123,22 +120,16 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <!-- FIM DO LOOP -->
+                    
+                    {% if not plataforma.produtos %}
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Nenhum produto cadastrado nesta categoria ainda.</p>
+                    </div>
+                    {% endif %}
 
                 </div>
             </div>
-
-            <!-- === ABA AMAZON (Placeholder) === -->
-            <div class="tab-pane fade" id="amazon" role="tabpanel">
-                <div class="alert alert-light text-center border shadow-sm">
-                    <h4><i class="bi bi-amazon me-2"></i>Ofertas da Amazon</h4>
-                    <p>Carregando produtos...</p>
-                </div>
-            </div>
-
-            <!-- Outras abas (AliExpress, ML) -->
-            <div class="tab-pane fade" id="ali" role="tabpanel"><div class="alert alert-light text-center">AliExpress</div></div>
-            <div class="tab-pane fade" id="ml" role="tabpanel"><div class="alert alert-light text-center">Mercado Livre</div></div>
+            {% endfor %}
         </div>
     </div>
 
